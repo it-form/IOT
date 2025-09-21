@@ -1,4 +1,4 @@
-name: Vérification HTML
+name: Vérification HTML Simplifiée
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 jobs:
   html-validator:
     runs-on: ubuntu-latest
+
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v3
@@ -20,10 +21,11 @@ jobs:
       - name: Installer le validateur HTML
         run: npm install -g html-validator-cli
 
-      - name: Vérifier les fichiers HTML
+      - name: Vérifier tous les fichiers HTML
         run: |
           for file in $(find . -name "*.html"); do
-            echo "Vérification de $file"
+            echo "🔎 Vérification de $file"
+            # html-validator renvoie un code d'erreur >0 si le fichier n'est pas valide
             html-validator --file=$file --verbose
           done
 
