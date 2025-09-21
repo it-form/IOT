@@ -1,0 +1,29 @@
+name: Vérification HTML
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  html-validator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Installer le validateur HTML
+        run: npm install -g html-validator-cli
+
+      - name: Vérifier les fichiers HTML
+        run: |
+          for file in $(find . -name "*.html"); do
+            echo "Vérification de $file"
+            html-validator --file=$file --verbose
+          done
+
